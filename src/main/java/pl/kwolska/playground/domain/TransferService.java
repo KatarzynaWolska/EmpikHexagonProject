@@ -20,7 +20,7 @@ public class TransferService {
   private final AccountRepository accountRepository;
   
   public boolean createTransfer(Account debit, Account credit, BigDecimal money) {
-    if (isTransferImpossible(credit, money)) {
+    if (credit.isTransferImpossible(money)) {
       return false;
     }
     credit.subtractFromBalance(money);
@@ -28,10 +28,6 @@ public class TransferService {
     Transfer transfer = new Transfer(1, debit, credit, money, LocalDateTime.now());
     transferRepository.addTransfer(transfer);
     return true;
-  }
-
-  private boolean isTransferImpossible(Account credit, BigDecimal money) {
-    return credit.getBalance().subtract(money).compareTo(BigDecimal.ZERO) < 0;
   }
 
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {

@@ -25,4 +25,8 @@ public class Account {
   public void subtractFromBalance(BigDecimal money) {
     balance.subtract(money);
   }
+
+  public boolean isTransferImpossible(BigDecimal money) {
+    return balance.subtract(money).compareTo(BigDecimal.ZERO) < 0;
+  }
 }
