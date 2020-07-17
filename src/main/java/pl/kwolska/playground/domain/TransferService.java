@@ -23,8 +23,8 @@ public class TransferService {
     if (credit.isTransferImpossible(money)) {
       return false;
     }
-    credit.subtractFromBalance(money);
-    debit.addToBalance(money);
+    credit.subtractMoneyFromBalance(money);
+    debit.addMoneyToBalance(money);
     Transfer transfer = new Transfer(1, debit, credit, money, LocalDateTime.now());
     transferRepository.addTransfer(transfer);
     return true;
