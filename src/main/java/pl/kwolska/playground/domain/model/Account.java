@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+
+// mozna tylko przelac pieniadze z konta A na konto B, jezeli saldo konta A - kwota transakcji >= 0
 @Getter
 @Setter
 @AllArgsConstructor
