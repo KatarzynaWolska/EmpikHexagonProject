@@ -1,8 +1,9 @@
-package pl.kwolska.playground.domain;
+package pl.kwolska.playground.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import pl.kwolska.playground.domain.model.Account;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

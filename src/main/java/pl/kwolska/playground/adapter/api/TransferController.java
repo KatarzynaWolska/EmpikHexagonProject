@@ -1,18 +1,18 @@
-package pl.kwolska.playground.adapter;
+package pl.kwolska.playground.adapter.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import pl.kwolska.playground.domain.Transfer;
-import pl.kwolska.playground.domain.TransferService;
+import pl.kwolska.playground.domain.model.Transfer;
+import pl.kwolska.playground.domain.port.TransferService;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class TransferController {
   
-  @Autowired
-  private TransferService transferService;
+  private final TransferService transferService;
   
   @RequestMapping(value = "/account/{creditAccountId}/transfers", method = RequestMethod.POST)
   public void addUserTransfer(@PathVariable int creditAccountId, Integer debitAccountId, BigDecimal money) {
@@ -21,6 +21,6 @@ public class TransferController {
   
   @RequestMapping(value = "/account/{accountId}/transfers", method = RequestMethod.GET)
   public List<Transfer> getAccountTransfer(@PathVariable Integer accountId) {
-    return transferService.getAccountTransfers(accountId);
+    return transferService.findAccountTransfers(accountId);
   }
 }

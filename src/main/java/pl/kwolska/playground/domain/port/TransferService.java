@@ -1,9 +1,9 @@
-package pl.kwolska.playground.domain;
+package pl.kwolska.playground.domain.port;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.kwolska.playground.repo.AccountRepository;
-import pl.kwolska.playground.repo.TransferRepository;
+import pl.kwolska.playground.domain.model.Account;
+import pl.kwolska.playground.domain.model.Transfer;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,24 +11,23 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TransferService {
   
-  @Autowired
-  private TransferRepository transferRepository;
+  private final TransferStorage transferStorage;
   
-  @Autowired
-  private AccountRepository accountRepository;
+  private final AccountStorage accountStorage;
   
   
   public void createTransfer(Account debit, Account credit, BigDecimal money) {
     calculateDifference(debit, credit, money);
     Transfer transfer = new Transfer(1, debit, credit, money, LocalDateTime.now());
-    transferRepository.addTransfer(transfer);
+    transferStorage.addTransfer(transfer);
   }
   
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {
-    Account debitAccount = accountRepository.findAccountById(debitAccountId);
-    Account creditAccount = accountRepository.findAccountById(creditAccountId);
+    Account debitAccount = accountStorage.findAccountById(debitAccountId);
+    Account creditAccount = accountStorage.findAccountById(creditAccountId);
     createTransfer(debitAccount, creditAccount, money);
   }
   
@@ -40,13 +39,13 @@ public class TransferService {
     debit.setBalance(debitBalance.add(money));
   }
   
-  public List<Transfer> getAccountTransfers(int accountId) {
-    Account account = accountRepository.findAccountById(accountId);
+  public List<Transfer> findAccountTransfers(int accountId) {
+    Account account = accountStorage.findAccountById(accountId);
     
     if (account == null) {
       return Collections.emptyList();
     } else {
-      return transferRepository.getAccountTransfers(account);
+      return transferStorage.findAccountTransfers(account);
     }
   }
 }

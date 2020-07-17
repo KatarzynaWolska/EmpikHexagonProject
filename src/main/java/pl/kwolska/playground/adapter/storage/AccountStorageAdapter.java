@@ -1,7 +1,8 @@
-package pl.kwolska.playground.repo;
+package pl.kwolska.playground.adapter.storage;
 
 import org.springframework.stereotype.Component;
-import pl.kwolska.playground.domain.Account;
+import pl.kwolska.playground.domain.model.Account;
+import pl.kwolska.playground.domain.port.AccountStorage;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class AccountRepositoryAdapter implements AccountRepository {
+class AccountStorageAdapter implements AccountStorage {
   
   private final List<Account> accounts = new ArrayList<>();
   
-  public AccountRepositoryAdapter() {
+  public AccountStorageAdapter() {
     accounts.add(new Account(1, new BigDecimal(1000)));
     accounts.add(new Account(2, new BigDecimal(2000)));
   }
