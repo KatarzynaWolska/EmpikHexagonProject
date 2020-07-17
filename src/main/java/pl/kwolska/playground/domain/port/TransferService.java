@@ -14,20 +14,20 @@ import java.util.List;
 @AllArgsConstructor
 public class TransferService {
   
-  private final TransferStorage transferStorage;
+  private final TransferRepository transferRepository;
   
-  private final AccountStorage accountStorage;
+  private final AccountRepository accountRepository;
   
   
   public void createTransfer(Account debit, Account credit, BigDecimal money) {
     calculateDifference(debit, credit, money);
     Transfer transfer = new Transfer(1, debit, credit, money, LocalDateTime.now());
-    transferStorage.addTransfer(transfer);
+    transferRepository.addTransfer(transfer);
   }
   
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {
-    Account debitAccount = accountStorage.findAccountById(debitAccountId);
-    Account creditAccount = accountStorage.findAccountById(creditAccountId);
+    Account debitAccount = accountRepository.findAccountById(debitAccountId);
+    Account creditAccount = accountRepository.findAccountById(creditAccountId);
     createTransfer(debitAccount, creditAccount, money);
   }
   
@@ -40,12 +40,12 @@ public class TransferService {
   }
   
   public List<Transfer> findAccountTransfers(int accountId) {
-    Account account = accountStorage.findAccountById(accountId);
+    Account account = accountRepository.findAccountById(accountId);
     
     if (account == null) {
       return Collections.emptyList();
     } else {
-      return transferStorage.findAccountTransfers(account);
+      return transferRepository.findAccountTransfers(account);
     }
   }
 }

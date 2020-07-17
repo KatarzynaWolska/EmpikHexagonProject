@@ -5,7 +5,7 @@ import pl.kwolska.playground.domain.model.Transfer;
 
 import java.util.List;
 
-public interface TransferStorage {
+public interface TransferRepository {
   
   void addTransfer(Transfer transfer);
   
