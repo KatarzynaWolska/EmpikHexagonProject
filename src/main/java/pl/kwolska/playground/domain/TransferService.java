@@ -19,9 +19,9 @@ public class TransferService {
   
   private final AccountRepository accountRepository;
   
-  
   public void createTransfer(Account debit, Account credit, BigDecimal money) {
-    calculateDifference(debit, credit, money);
+    credit.subtractFromBalance(money);
+    debit.addToBalance(money);
     Transfer transfer = new Transfer(1, debit, credit, money, LocalDateTime.now());
     transferRepository.addTransfer(transfer);
   }
@@ -33,14 +33,6 @@ public class TransferService {
     if (debitAccount.isPresent() && creditAccount.isPresent()) {
       createTransfer(debitAccount.get(), creditAccount.get(), money);
     }
-  }
-  
-  private void calculateDifference(Account debit, Account credit, BigDecimal money) {
-    BigDecimal creditBalance = credit.getBalance();
-    BigDecimal debitBalance = debit.getBalance();
-  
-    credit.setBalance(creditBalance.subtract(money));
-    debit.setBalance(debitBalance.add(money));
   }
   
   public List<Transfer> findAccountTransfers(int accountId) {

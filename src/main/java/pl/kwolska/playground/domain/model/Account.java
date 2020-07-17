@@ -14,5 +14,13 @@ import java.math.BigDecimal;
 public class Account {
   
   private int id;
-  private BigDecimal balance;
+  private BigDecimal balance; // <--- wynika z transferow wszystkich
+
+  public void addToBalance(BigDecimal money) {
+    balance.add(money);
+  }
+
+  public void subtractFromBalance(BigDecimal money) {
+    balance.subtract(money);
+  }
 }
