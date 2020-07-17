@@ -17,11 +17,17 @@ public class Account {
   
   private int id;
   private BigDecimal balance; // <--- wynika z transferow wszystkich
+  // lista transferow, balance wynika z transferow,
 
+  // todo operacje dodania pieniedzy na konto/pobrania pieniedzy sa w Account
+  // hint: do metod przekazujemy id konta docelowego
+
+  // todo nazwa?
   public void addToBalance(BigDecimal money) {
     balance.add(money);
   }
 
+  // todo nazwa?
   public void subtractFromBalance(BigDecimal money) {
     balance.subtract(money);
   }
