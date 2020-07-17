@@ -3,7 +3,7 @@ package pl.kwolska.playground.adapter.api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.kwolska.playground.domain.model.Transfer;
-import pl.kwolska.playground.domain.port.TransferService;
+import pl.kwolska.playground.domain.TransferService;
 
 import java.math.BigDecimal;
 import java.util.List;

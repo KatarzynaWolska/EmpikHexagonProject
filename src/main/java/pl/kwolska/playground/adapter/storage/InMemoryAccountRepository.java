@@ -2,7 +2,7 @@ package pl.kwolska.playground.adapter.storage;
 
 import org.springframework.stereotype.Component;
 import pl.kwolska.playground.domain.model.Account;
-import pl.kwolska.playground.domain.port.AccountRepository;
+import pl.kwolska.playground.domain.AccountRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -20,8 +20,7 @@ class InMemoryAccountRepository implements AccountRepository {
   }
   
   @Override
-  public Account findAccountById(int accountId) {
-    Optional<Account> account = accounts.stream().filter(acc -> acc.getId() == accountId).findFirst();
-    return account.orElse(null);
+  public Optional<Account> findAccountById(int accountId) {
+    return accounts.stream().filter(acc -> acc.getId() == accountId).findFirst();
   }
 }

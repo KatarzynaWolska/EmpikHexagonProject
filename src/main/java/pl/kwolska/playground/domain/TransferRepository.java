@@ -1,4 +1,4 @@
-package pl.kwolska.playground.domain.port;
+package pl.kwolska.playground.domain;
 
 import pl.kwolska.playground.domain.model.Account;
 import pl.kwolska.playground.domain.model.Transfer;

@@ -3,7 +3,7 @@ package pl.kwolska.playground.adapter.storage;
 import org.springframework.stereotype.Component;
 import pl.kwolska.playground.domain.model.Account;
 import pl.kwolska.playground.domain.model.Transfer;
-import pl.kwolska.playground.domain.port.TransferRepository;
+import pl.kwolska.playground.domain.TransferRepository;
 
 import java.util.ArrayList;
 import java.util.List;

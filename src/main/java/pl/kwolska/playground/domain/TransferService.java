@@ -1,4 +1,4 @@
-package pl.kwolska.playground.domain.port;
+package pl.kwolska.playground.domain;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,9 +27,12 @@ public class TransferService {
   }
   
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {
-    Account debitAccount = accountRepository.findAccountById(debitAccountId);
-    Account creditAccount = accountRepository.findAccountById(creditAccountId);
-    createTransfer(debitAccount, creditAccount, money);
+    Optional<Account> debitAccount = accountRepository.findAccountById(debitAccountId);
+    Optional<Account> creditAccount = accountRepository.findAccountById(creditAccountId);
+    
+    if (debitAccount.isPresent() && creditAccount.isPresent()) {
+      createTransfer(debitAccount.get(), creditAccount.get(), money);
+    }
   }
   
   private void calculateDifference(Account debit, Account credit, BigDecimal money) {
@@ -40,12 +44,12 @@ public class TransferService {
   }
   
   public List<Transfer> findAccountTransfers(int accountId) {
-    Account account = accountRepository.findAccountById(accountId);
+    Optional<Account> account = accountRepository.findAccountById(accountId);
     
-    if (account == null) {
-      return Collections.emptyList();
+    if (account.isPresent()) {
+      return transferRepository.findAccountTransfers(account.get());
     } else {
-      return transferRepository.findAccountTransfers(account);
+      return Collections.emptyList();
     }
   }
 }
