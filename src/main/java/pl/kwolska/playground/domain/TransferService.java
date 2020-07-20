@@ -15,17 +15,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TransferService {
   
-  private final TransferRepository transferRepository;
-  
   private final AccountRepository accountRepository;
   
-  
-  public void createTransfer(Account debit, Account credit, BigDecimal money) {
-    calculateDifference(debit, credit, money);
-    Transfer transfer = new Transfer(1, debit, credit, money, LocalDateTime.now());
-    transferRepository.addTransfer(transfer);
+  public boolean createTransfer(Account debit, Account credit, BigDecimal money) {
+    boolean wasMoneyWithdrawn = credit.withdraw(money, debit.getId());
+    
+    if (wasMoneyWithdrawn) {
+      debit.deposit(money, credit.getId());
+      return true;
+    }
+    return false;
   }
-  
+
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {
     Optional<Account> debitAccount = accountRepository.findAccountById(debitAccountId);
     Optional<Account> creditAccount = accountRepository.findAccountById(creditAccountId);
@@ -35,21 +36,10 @@ public class TransferService {
     }
   }
   
-  private void calculateDifference(Account debit, Account credit, BigDecimal money) {
-    BigDecimal creditBalance = credit.getBalance();
-    BigDecimal debitBalance = debit.getBalance();
-  
-    credit.setBalance(creditBalance.subtract(money));
-    debit.setBalance(debitBalance.add(money));
-  }
-  
   public List<Transfer> findAccountTransfers(int accountId) {
-    Optional<Account> account = accountRepository.findAccountById(accountId);
-    
-    if (account.isPresent()) {
-      return transferRepository.findAccountTransfers(account.get());
-    } else {
-      return Collections.emptyList();
-    }
+    return accountRepository
+        .findAccountById(accountId)
+        .map(Account::getTransfers)
+        .orElse(Collections.emptyList());
   }
 }
