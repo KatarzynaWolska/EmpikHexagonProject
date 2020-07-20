@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class Transfer {
   
   private int id;
-  private Account debit;
-  private Account credit;
+  private int debitAccountId;
+  private int creditAccountId;
   private BigDecimal money;
   private LocalDateTime date;
   

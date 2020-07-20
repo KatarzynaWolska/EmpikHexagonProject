@@ -20,12 +20,7 @@ public class TransferService {
   private final AccountRepository accountRepository;
   
   public boolean createTransfer(Account debit, Account credit, BigDecimal money) {
-    if (credit.isTransferImpossible(money)) {
-      return false;
-    }
-//    credit.subtractMoneyFromBalance(money);
-//    debit.addMoneyToBalance(money);
-    Transfer transfer = new Transfer(1, debit, credit, money, LocalDateTime.now());
+    credit.createTransfer(debit.getId(), money);
     transferRepository.addTransfer(transfer);
     return true;
   }

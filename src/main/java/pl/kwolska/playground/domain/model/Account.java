@@ -21,7 +21,6 @@ public class Account {
   
   private int id;
   private List<Transfer> transfers;
-  private AccountRepository accountRepository;
   // lista transferow, balance wynika z transferow,
 
   // todo operacje dodania pieniedzy na konto/pobrania pieniedzy sa w Account
@@ -30,9 +29,9 @@ public class Account {
   public BigDecimal calculateBalance() {
     BigDecimal balance = BigDecimal.ZERO;
     for (Transfer transfer : transfers) {
-      if (transfer.getCredit().equals(this)) {
+      if (transfer.getCreditAccountId() == this.id) {
         balance = balance.subtract(transfer.getMoney());
-      } else if (transfer.getDebit().equals(this)) {
+      } else if (transfer.getDebitAccountId() == this.id) {
         balance = balance.add(transfer.getMoney());
       }
     }
@@ -40,17 +39,10 @@ public class Account {
   }
 
   public boolean createTransfer(int debitAccountId, BigDecimal money) {
-    Optional<Account> debitOptionalAccount = accountRepository.findAccountById(debitAccountId);
-    
-    if (isTransferImpossible(money) || !debitOptionalAccount.isPresent()) {
+    if (isTransferImpossible(money)) {
       return false;
     }
-    
-    Account debitAccount = debitOptionalAccount.get();
-    
-    Transfer transfer = new Transfer(1, debitAccount, this, money, LocalDateTime.now());
-    transfers.add(transfer);
-    debitAccount.transfers.add(transfer);
+    Transfer transfer = new Transfer(1, debitAccountId, this.id, money, LocalDateTime.now());
     return true;
   }
 
