@@ -41,7 +41,7 @@ public class Account {
   
   public boolean withdraw(BigDecimal money, int debitAccountId) { //credit
     if (!isTransferImpossible(money)) {
-      Transfer transfer = new Transfer(1, debitAccountId, this.id, money, LocalDateTime.now());
+      Transfer transfer = Transfer.of(debitAccountId, this.id, money);
       transfers.add(transfer);
       return true;
     }
@@ -49,7 +49,7 @@ public class Account {
   }
   
   public void deposit(BigDecimal money, int creditAccountId) { //debit
-    Transfer transfer = new Transfer(1, this.id, creditAccountId, money, LocalDateTime.now());
+    Transfer transfer = Transfer.of(this.id, creditAccountId, money);
     transfers.add(transfer);
   }
 
