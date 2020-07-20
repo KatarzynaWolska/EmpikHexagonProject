@@ -20,9 +20,13 @@ public class TransferService {
   private final AccountRepository accountRepository;
   
   public boolean createTransfer(Account debit, Account credit, BigDecimal money) {
-    credit.createTransfer(debit.getId(), money);
-    transferRepository.addTransfer(transfer);
-    return true;
+    boolean wasMoneyWithdrawn = credit.withdraw(money, debit.getId());
+    
+    if (wasMoneyWithdrawn) {
+      debit.deposit(money, credit.getId());
+      return true;
+    }
+    return false;
   }
 
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {

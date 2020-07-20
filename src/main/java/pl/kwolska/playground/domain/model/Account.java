@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.kwolska.playground.domain.AccountRepository;
 
+import javax.transaction.Transaction;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,17 +38,22 @@ public class Account {
     }
     return balance;
   }
-
-  public boolean createTransfer(int debitAccountId, BigDecimal money) {
-    if (isTransferImpossible(money)) {
-      return false;
+  
+  public boolean withdraw(BigDecimal money, int debitAccountId) { //credit
+    if (!isTransferImpossible(money)) {
+      Transfer transfer = new Transfer(1, debitAccountId, this.id, money, LocalDateTime.now());
+      transfers.add(transfer);
+      return true;
     }
-    Transfer transfer = new Transfer(1, debitAccountId, this.id, money, LocalDateTime.now());
-    return true;
+    return false;
+  }
+  
+  public void deposit(BigDecimal money, int creditAccountId) { //debit
+    Transfer transfer = new Transfer(1, this.id, creditAccountId, money, LocalDateTime.now());
+    transfers.add(transfer);
   }
 
   public boolean isTransferImpossible(BigDecimal money) {
-    return true;
-//    return balance.subtract(money).compareTo(BigDecimal.ZERO) < 0;
+    return calculateBalance().subtract(money).compareTo(BigDecimal.ZERO) < 0;
   }
 }
