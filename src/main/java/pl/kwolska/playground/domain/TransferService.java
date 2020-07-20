@@ -15,8 +15,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TransferService {
   
-  private final TransferRepository transferRepository;
-  
   private final AccountRepository accountRepository;
   
   public boolean createTransfer(Account debit, Account credit, BigDecimal money) {
@@ -39,12 +37,9 @@ public class TransferService {
   }
   
   public List<Transfer> findAccountTransfers(int accountId) {
-    Optional<Account> account = accountRepository.findAccountById(accountId);
-    
-    if (account.isPresent()) {
-      return transferRepository.findAccountTransfers(account.get());
-    } else {
-      return Collections.emptyList();
-    }
+    return accountRepository
+        .findAccountById(accountId)
+        .map(Account::getTransfers)
+        .orElse(Collections.emptyList());
   }
 }

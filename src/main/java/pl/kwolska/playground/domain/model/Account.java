@@ -13,19 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 
-// mozna tylko przelac pieniadze z konta A na konto B, jezeli saldo konta A - kwota transakcji >= 0
 @Getter
-@Setter
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Account {
   
-  private int id;
-  private List<Transfer> transfers;
-  // lista transferow, balance wynika z transferow,
-
-  // todo operacje dodania pieniedzy na konto/pobrania pieniedzy sa w Account
-  // hint: do metod przekazujemy id konta docelowego
+  private final int id;
+  private final List<Transfer> transfers;
 
   public BigDecimal calculateBalance() {
     BigDecimal balance = BigDecimal.ZERO;
@@ -40,12 +34,12 @@ public class Account {
   }
   
   public boolean withdraw(BigDecimal money, int debitAccountId) { //credit
-    if (!isTransferImpossible(money)) {
-      Transfer transfer = Transfer.of(debitAccountId, this.id, money);
-      transfers.add(transfer);
-      return true;
+    if (isTransferImpossible(money)) {
+      return false;
     }
-    return false;
+    Transfer transfer = Transfer.of(debitAccountId, this.id, money);
+    transfers.add(transfer);
+    return true;
   }
   
   public void deposit(BigDecimal money, int creditAccountId) { //debit
