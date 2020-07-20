@@ -1,5 +1,9 @@
 package pl.kwolska.playground.adapter.storage;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import pl.kwolska.playground.domain.AccountRepository;
 import pl.kwolska.playground.domain.model.Account;
 import pl.kwolska.playground.domain.model.Transfer;
@@ -9,9 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Primary
+@Profile("database")
+@Component
+@RequiredArgsConstructor
 public class DatabaseAccountRepository implements AccountRepository {
   
-  private JpaAccountRepository accountRepository;
+  private final JpaAccountRepository accountRepository;
   
   @PostConstruct
   public void createAccounts() {

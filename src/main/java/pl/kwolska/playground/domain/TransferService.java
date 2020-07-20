@@ -27,12 +27,16 @@ public class TransferService {
   }
 
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {
+    // todo 1: blad biznesowy, ze nie ma kont, rzucic wyjatek! Handler dla wyjatku
     Optional<Account> debitAccount = accountRepository.findAccountById(debitAccountId);
     Optional<Account> creditAccount = accountRepository.findAccountById(creditAccountId);
-    
+
     if (debitAccount.isPresent() && creditAccount.isPresent()) {
+      // logika biznesowa!
       createTransfer(debitAccount.get(), creditAccount.get(), money);
     }
+
+    // todo 2: zapis stanu tych kont, update account!
   }
   
   public List<Transfer> findAccountTransfers(int accountId) {
