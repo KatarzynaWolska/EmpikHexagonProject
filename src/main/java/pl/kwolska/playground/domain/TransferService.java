@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @AllArgsConstructor
 public class TransferService {
   
