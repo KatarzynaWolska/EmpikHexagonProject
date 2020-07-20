@@ -18,11 +18,4 @@ class InMemoryTransferRepository implements TransferRepository {
   public void addTransfer(Transfer transfer) {
     transfers.add(transfer);
   }
-  
-  @Override
-  public List<Transfer> findAccountTransfers(Account account) {
-    return transfers.stream()
-        .filter(t -> t.getCredit().equals(account))
-        .collect(Collectors.toList());
-  }
 }

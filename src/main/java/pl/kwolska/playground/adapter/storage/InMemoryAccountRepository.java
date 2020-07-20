@@ -16,8 +16,8 @@ class InMemoryAccountRepository implements AccountRepository {
   private final List<Account> accounts = new ArrayList<>();
 
   public InMemoryAccountRepository() {
-    accounts.add(new Account(1, Collections.emptyList(), this));
-    accounts.add(new Account(2, Collections.emptyList(), this));
+    accounts.add(new Account(1, Collections.emptyList()));
+    accounts.add(new Account(2, Collections.emptyList()));
   }
 
   @Override
