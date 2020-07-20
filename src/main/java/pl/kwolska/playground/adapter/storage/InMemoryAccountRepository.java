@@ -6,19 +6,20 @@ import pl.kwolska.playground.domain.AccountRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 class InMemoryAccountRepository implements AccountRepository {
-  
+
   private final List<Account> accounts = new ArrayList<>();
-  
+
   public InMemoryAccountRepository() {
-    accounts.add(new Account(1, new BigDecimal(1000)));
-    accounts.add(new Account(2, new BigDecimal(2000)));
+    accounts.add(new Account(1, Collections.emptyList(), this));
+    accounts.add(new Account(2, Collections.emptyList(), this));
   }
-  
+
   @Override
   public Optional<Account> findAccountById(int accountId) {
     return accounts.stream().filter(acc -> acc.getId() == accountId).findFirst();

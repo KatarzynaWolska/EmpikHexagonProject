@@ -20,24 +20,25 @@ import java.util.Optional;
 public class Account {
   
   private int id;
-  private BigDecimal balance; // <--- wynika z transferow wszystkich
   private List<Transfer> transfers;
   private AccountRepository accountRepository;
   // lista transferow, balance wynika z transferow,
 
   // todo operacje dodania pieniedzy na konto/pobrania pieniedzy sa w Account
   // hint: do metod przekazujemy id konta docelowego
-  
-  public void executeTransfers() {
-    transfers.forEach(t -> {
-      if (t.getCredit().equals(this)) {
-        subtractMoneyFromBalance(t.getMoney());
-      } else {
-        addMoneyToBalance(t.getMoney());
+
+  public BigDecimal calculateBalance() {
+    BigDecimal balance = BigDecimal.ZERO;
+    for (Transfer transfer : transfers) {
+      if (transfer.getCredit().equals(this)) {
+        balance = balance.subtract(transfer.getMoney());
+      } else if (transfer.getDebit().equals(this)) {
+        balance = balance.add(transfer.getMoney());
       }
-    });
+    }
+    return balance;
   }
-  
+
   public boolean createTransfer(int debitAccountId, BigDecimal money) {
     Optional<Account> debitOptionalAccount = accountRepository.findAccountById(debitAccountId);
     
@@ -53,17 +54,8 @@ public class Account {
     return true;
   }
 
-  // todo nazwa?
-  public void addMoneyToBalance(BigDecimal money) {
-    this.balance = balance.add(money);
-  }
-
-  // todo nazwa?
-  public void subtractMoneyFromBalance(BigDecimal money) {
-    this.balance = balance.subtract(money);
-  }
-
   public boolean isTransferImpossible(BigDecimal money) {
-    return balance.subtract(money).compareTo(BigDecimal.ZERO) < 0;
+    return true;
+//    return balance.subtract(money).compareTo(BigDecimal.ZERO) < 0;
   }
 }
