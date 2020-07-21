@@ -30,9 +30,10 @@ public class TransferController {
 
   // todo 4: /accounts/{id} - id, balance, transfery
   @RequestMapping(value = "/accounts/{accountId}", method = RequestMethod.GET)
-  public ResponseEntity<Account> findAccountById(@PathVariable Integer accountId) {
+  public ResponseEntity<AccountDto> findAccountById(@PathVariable Integer accountId) {
     return transferService.findAccountById(accountId)
-        .map(account -> new ResponseEntity<>(account, HttpStatus.OK))
+        .map(account -> new AccountDto(account.getId(), account.calculateBalance(), account.getTransfers()))
+        .map(accountDto -> new ResponseEntity<>(accountDto, HttpStatus.OK))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
