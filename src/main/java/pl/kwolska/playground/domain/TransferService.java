@@ -2,6 +2,7 @@ package pl.kwolska.playground.domain;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.kwolska.playground.adapter.storage.AccountEntity;
 import pl.kwolska.playground.domain.model.Account;
 import pl.kwolska.playground.domain.model.Transfer;
 
@@ -16,6 +17,10 @@ import java.util.Optional;
 public class TransferService {
   
   private final AccountRepository accountRepository;
+  
+  public void createAccounts() {
+    accountRepository.createAccounts();
+  }
   
   public boolean createTransfer(Account debit, Account credit, BigDecimal money) {
     boolean wasMoneyWithdrawn = credit.withdraw(money, debit.getId());
@@ -51,5 +56,9 @@ public class TransferService {
         .findAccountById(accountId)
         .map(Account::getTransfers)
         .orElse(Collections.emptyList());
+  }
+  
+  public Optional<Account> findAccountById(int accountId) {
+    return accountRepository.findAccountById(accountId);
   }
 }

@@ -21,13 +21,6 @@ public class DatabaseAccountRepository implements AccountRepository {
   
   private final JpaAccountRepository accountRepository;
   
-  /*@PostConstruct
-  public void createAccounts() {
-    AccountEntity accountEntity1 = new AccountEntity();
-    AccountEntity accountEntity2 = new AccountEntity();
-    accountRepository.save(accountEntity1);
-    accountRepository.save(accountEntity2);
-  }*/
   
   @Override
   public Optional<Account> findAccountById(int accountId) {
@@ -56,6 +49,14 @@ public class DatabaseAccountRepository implements AccountRepository {
       accEntity.setTransfers(transfers);
       accountRepository.save(accEntity);
     });
+  }
+  
+  @Override
+  public void createAccounts() {
+    AccountEntity accountEntity1 = new AccountEntity();
+    AccountEntity accountEntity2 = new AccountEntity();
+    accountRepository.save(accountEntity1);
+    accountRepository.save(accountEntity2);
   }
   
 }
