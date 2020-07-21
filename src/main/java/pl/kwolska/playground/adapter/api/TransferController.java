@@ -2,7 +2,6 @@ package pl.kwolska.playground.adapter.api;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.kwolska.playground.domain.model.Account;
@@ -10,9 +9,7 @@ import pl.kwolska.playground.domain.model.Transfer;
 import pl.kwolska.playground.domain.TransferService;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -22,8 +19,8 @@ public class TransferController {
 
   // todo 5: tu powinien @RequestBody (idki, money)
   @RequestMapping(value = "/accounts/{creditAccountId}/transfers", method = RequestMethod.POST)
-  public void addUserTransfer(@PathVariable int creditAccountId, Integer debitAccountId, BigDecimal money) {
-    transferService.createTransfer(debitAccountId, creditAccountId, money);
+  public void addUserTransfer(@PathVariable int creditAccountId, @RequestBody TransferDto transferDto) {
+    transferService.createTransfer(transferDto.getDebitAccountId(), creditAccountId, transferDto.getMoney());
   }
   
   @RequestMapping(value = "/createAccounts", method = RequestMethod.POST)
