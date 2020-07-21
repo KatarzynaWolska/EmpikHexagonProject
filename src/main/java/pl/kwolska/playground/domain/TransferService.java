@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.kwolska.playground.domain.model.Account;
 import pl.kwolska.playground.domain.model.Transfer;
 
+import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -31,7 +32,11 @@ public class TransferService {
     Optional<Account> debitAccount = accountRepository.findAccountById(debitAccountId);
     Optional<Account> creditAccount = accountRepository.findAccountById(creditAccountId);
 
-    if (debitAccount.isPresent() && creditAccount.isPresent()) {
+    if(!debitAccount.isPresent()) {
+      throw new EntityNotFoundException("Debit account is not found");
+    } else if (!creditAccount.isPresent()) {
+      throw new EntityNotFoundException("Credit account is not found");
+    } else {
       // logika biznesowa!
       createTransfer(debitAccount.get(), creditAccount.get(), money);
     }
