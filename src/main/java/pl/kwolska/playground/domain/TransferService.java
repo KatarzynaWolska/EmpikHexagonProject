@@ -44,11 +44,11 @@ public class TransferService {
     }
     
     // logika biznesowa!
-    createTransfer(debitAccount.get(), creditAccount.get(), money);
-    
-    // todo 2: zapis stanu tych kont, update account!
-    accountRepository.updateAccount(debitAccount.get());
-    accountRepository.updateAccount(creditAccount.get());
+    if(createTransfer(debitAccount.get(), creditAccount.get(), money)) {
+      // todo 2: zapis stanu tych kont, update account!
+      accountRepository.updateAccount(debitAccount.get());
+      accountRepository.updateAccount(creditAccount.get());
+    }
   }
   
   public List<Transfer> findAccountTransfers(int accountId) {
