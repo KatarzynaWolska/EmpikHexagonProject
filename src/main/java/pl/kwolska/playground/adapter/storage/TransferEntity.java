@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "transfers")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class TransferEntity {

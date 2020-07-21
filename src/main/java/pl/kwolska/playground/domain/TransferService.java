@@ -36,12 +36,14 @@ public class TransferService {
       throw new EntityNotFoundException("Debit account is not found");
     } else if (!creditAccount.isPresent()) {
       throw new EntityNotFoundException("Credit account is not found");
-    } else {
-      // logika biznesowa!
-      createTransfer(debitAccount.get(), creditAccount.get(), money);
     }
-
+    
+    // logika biznesowa!
+    createTransfer(debitAccount.get(), creditAccount.get(), money);
+    
     // todo 2: zapis stanu tych kont, update account!
+    accountRepository.updateAccount(debitAccount.get());
+    accountRepository.updateAccount(creditAccount.get());
   }
   
   public List<Transfer> findAccountTransfers(int accountId) {

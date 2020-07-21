@@ -1,5 +1,6 @@
 package pl.kwolska.playground.adapter.storage;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "accounts")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class AccountEntity {

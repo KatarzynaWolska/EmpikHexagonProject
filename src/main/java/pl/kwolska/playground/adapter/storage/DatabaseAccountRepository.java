@@ -41,4 +41,21 @@ public class DatabaseAccountRepository implements AccountRepository {
       return new Account(accEntity.getId(), transfers);
     });
   }
+  
+  @Override
+  public void updateAccount(Account account) {
+    Optional<AccountEntity> accountEntity = accountRepository.findById(account.getId());
+  
+    accountEntity.ifPresent(accEntity -> {
+      List<TransferEntity> transfers = account.getTransfers().stream().map(transfer -> new TransferEntity(
+          transfer.getId(),
+          transfer.getDebitAccountId(),
+          transfer.getCreditAccountId(),
+          transfer.getMoney(),
+          transfer.getDate())).collect(Collectors.toList());
+      accEntity.setTransfers(transfers);
+      accountRepository.save(accEntity);
+    });
+  }
+  
 }

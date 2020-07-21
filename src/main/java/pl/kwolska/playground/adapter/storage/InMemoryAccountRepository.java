@@ -24,4 +24,8 @@ class InMemoryAccountRepository implements AccountRepository {
   public Optional<Account> findAccountById(int accountId) {
     return accounts.stream().filter(acc -> acc.getId() == accountId).findFirst();
   }
+  
+  @Override
+  public void updateAccount(Account account) {
+  }
 }
