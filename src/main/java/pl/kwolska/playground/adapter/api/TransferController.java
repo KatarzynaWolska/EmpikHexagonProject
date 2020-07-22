@@ -23,9 +23,9 @@ public class TransferController {
     transferService.createTransfer(transferDto.getDebitAccountId(), transferDto.getCreditAccountId(), transferDto.getMoney());
   }
   
-  @ExceptionHandler(EntityNotFoundException.class)
+  @ExceptionHandler(AccountNotFoundException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-  public String handleException(EntityNotFoundException exception) {
+  public String handleException(AccountNotFoundException exception) {
     return exception.getMessage();
   }
 }
