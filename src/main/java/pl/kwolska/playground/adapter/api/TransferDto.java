@@ -12,5 +12,6 @@ import java.math.BigDecimal;
 public class TransferDto {
   
   private Integer debitAccountId;
+  private Integer creditAccountId;
   private BigDecimal money;
 }

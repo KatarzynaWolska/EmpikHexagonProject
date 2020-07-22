@@ -16,30 +16,10 @@ import java.util.List;
 public class TransferController {
   
   private final TransferService transferService;
-
-  // todo 5: tu powinien @RequestBody (idki, money)
-  @RequestMapping(value = "/accounts/{creditAccountId}/transfers", method = RequestMethod.POST)
-  public void addUserTransfer(@PathVariable int creditAccountId, @RequestBody TransferDto transferDto) {
-    transferService.createTransfer(transferDto.getDebitAccountId(), creditAccountId, transferDto.getMoney());
-  }
   
-  @RequestMapping(value = "/createAccounts", method = RequestMethod.POST)
-  public void createAccounts() {
-    transferService.createAccounts();
-  }
-
-  // todo 4: /accounts/{id} - id, balance, transfery
-  @RequestMapping(value = "/accounts/{accountId}", method = RequestMethod.GET)
-  public ResponseEntity<AccountDto> findAccountById(@PathVariable Integer accountId) {
-    return transferService.findAccountById(accountId)
-        .map(account -> new AccountDto(account.getId(), account.calculateBalance(), account.getTransfers()))
-        .map(accountDto -> new ResponseEntity<>(accountDto, HttpStatus.OK))
-        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-  }
-
-  @RequestMapping(value = "/accounts/{accountId}/transfers", method = RequestMethod.GET)
-  public List<Transfer> getAccountTransfer(@PathVariable Integer accountId) {
-    return transferService.findAccountTransfers(accountId);
+  @RequestMapping(value = "/transfers", method = RequestMethod.POST)
+  public void addTransfer(@RequestBody TransferDto transferDto) {
+    transferService.createTransfer(transferDto.getDebitAccountId(), transferDto.getCreditAccountId(), transferDto.getMoney());
   }
   
   @ExceptionHandler(EntityNotFoundException.class)
