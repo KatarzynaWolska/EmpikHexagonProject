@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+//@Component
 class InMemoryAccountRepository implements AccountRepository {
 
   private final List<Account> accounts = new ArrayList<>();

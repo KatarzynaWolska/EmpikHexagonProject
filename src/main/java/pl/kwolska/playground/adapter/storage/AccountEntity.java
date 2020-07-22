@@ -20,7 +20,4 @@ public class AccountEntity {
   @Column(name = "account_id")
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Integer id;
-  
-  @OneToMany
-  private List<TransferEntity> transfers;
 }

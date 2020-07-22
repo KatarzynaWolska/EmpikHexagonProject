@@ -23,10 +23,10 @@ public class TransferService {
   }
   
   public boolean createTransfer(Account debit, Account credit, BigDecimal money) {
-    boolean wasMoneyWithdrawn = credit.withdraw(money, debit.getId());
-    
-    if (wasMoneyWithdrawn) {
-      debit.deposit(money, credit.getId());
+    Optional<String> transferId = credit.withdraw(money, debit.getId());
+
+    if (transferId.isPresent()) {
+      debit.deposit(money, credit.getId(), transferId.get());
       return true;
     }
     return false;
