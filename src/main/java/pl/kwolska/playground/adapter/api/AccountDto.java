@@ -1,16 +1,12 @@
 package pl.kwolska.playground.adapter.api;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import pl.kwolska.playground.domain.model.Transfer;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 public class AccountDto {
   
   private int id;

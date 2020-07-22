@@ -1,14 +1,10 @@
 package pl.kwolska.playground.adapter.api;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 public class TransferDto {
   
   private Integer debitAccountId;
