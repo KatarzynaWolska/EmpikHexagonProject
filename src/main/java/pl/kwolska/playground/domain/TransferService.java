@@ -7,6 +7,7 @@ import pl.kwolska.playground.domain.model.Account;
 import pl.kwolska.playground.domain.model.Transfer;
 
 import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -32,16 +33,13 @@ public class TransferService {
     return false;
   }
 
-  public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) {
+  public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) throws AccountNotFoundException {
     // todo 1: blad biznesowy, ze nie ma kont, rzucic wyjatek! Handler dla wyjatku
-    Optional<Account> debitAccount = accountRepository.findAccountById(debitAccountId);
-    Optional<Account> creditAccount = accountRepository.findAccountById(creditAccountId);
-
-    if(!debitAccount.isPresent()) {
-      throw new EntityNotFoundException("Debit account is not found");
-    } else if (!creditAccount.isPresent()) {
-      throw new EntityNotFoundException("Credit account is not found");
-    }
+    Optional<Account> debitAccount = Optional.ofNullable(accountRepository.findAccountById(debitAccountId))
+        .orElseThrow(AccountNotFoundException::new);
+  
+    Optional<Account> creditAccount = Optional.ofNullable(accountRepository.findAccountById(creditAccountId))
+        .orElseThrow(AccountNotFoundException::new);
     
     // logika biznesowa!
     if(createTransfer(debitAccount.get(), creditAccount.get(), money)) {
