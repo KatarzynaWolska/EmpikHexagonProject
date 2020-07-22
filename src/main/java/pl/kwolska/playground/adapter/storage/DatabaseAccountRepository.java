@@ -61,7 +61,7 @@ public class DatabaseAccountRepository implements AccountRepository {
   }
 
   @Override
-  @PostConstruct
+  //@PostConstruct
   public void createAccounts() {
     AccountEntity accountEntity1 = new AccountEntity();
     AccountEntity accountEntity2 = new AccountEntity();
@@ -72,5 +72,4 @@ public class DatabaseAccountRepository implements AccountRepository {
     TransferEntity transferEntity2 = new TransferEntity(UUID.randomUUID().toString(), 2, 1, new BigDecimal(20.00), now());
     transferRepository.saveAll(Arrays.asList(transferEntity1, transferEntity2));
   }
-
 }
