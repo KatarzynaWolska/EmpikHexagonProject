@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import pl.kwolska.playground.adapter.api.AccountDto
+import pl.kwolska.playground.adapter.api.NewTransferRequest
 import pl.kwolska.playground.adapter.api.TransferDto
 import pl.kwolska.playground.adapter.storage.AccountEntity
 import pl.kwolska.playground.adapter.storage.JpaAccountRepository
@@ -56,8 +57,8 @@ class AccountTransfersFT extends Specification {
       transferRepository.save(transferEntity2)
     
     and: 'prepared transfer request'
-      def transferRequest1 = new TransferDto(2, 1, 400.00)
-      def transferRequest2 = new TransferDto(1, 2, 20.00)
+      def transferRequest1 = new NewTransferRequest(2, 1, 400.00)
+      def transferRequest2 = new NewTransferRequest(1, 2, 20.00)
     
     when: 'performing transfer'
       mockPost(path: '/transfers', request: transferRequest1)

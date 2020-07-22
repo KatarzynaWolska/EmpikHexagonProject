@@ -19,8 +19,8 @@ public class TransferController {
   private final TransferService transferService;
   
   @RequestMapping(value = "/transfers", method = RequestMethod.POST)
-  public void addTransfer(@RequestBody TransferDto transferDto) {
-    transferService.createTransfer(transferDto.getDebitAccountId(), transferDto.getCreditAccountId(), transferDto.getMoney());
+  public void addTransfer(@RequestBody NewTransferRequest transferRequest) {
+    transferService.createTransfer(transferRequest.getDebitAccountId(), transferRequest.getCreditAccountId(), transferRequest.getMoney());
   }
   
   @ExceptionHandler(AccountNotFoundException.class)
