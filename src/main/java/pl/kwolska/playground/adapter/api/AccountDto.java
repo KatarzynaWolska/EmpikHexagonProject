@@ -13,5 +13,5 @@ public class AccountDto {
   
   private int id;
   private BigDecimal balance;
-  private List<Transfer> transfers;
+  private List<TransferDto> transfers;
 }

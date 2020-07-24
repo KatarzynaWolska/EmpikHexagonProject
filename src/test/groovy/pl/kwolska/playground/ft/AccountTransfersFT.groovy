@@ -10,9 +10,7 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import pl.kwolska.playground.adapter.api.AccountDto
 import pl.kwolska.playground.adapter.api.NewTransferRequest
-import pl.kwolska.playground.adapter.api.TransferDto
 import pl.kwolska.playground.adapter.storage.AccountEntity
 import pl.kwolska.playground.adapter.storage.JpaAccountRepository
 import pl.kwolska.playground.adapter.storage.JpaTransferRepository
