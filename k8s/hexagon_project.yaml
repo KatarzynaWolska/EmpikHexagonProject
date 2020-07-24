@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hexagon-project
+  labels:
+    app: hexagon-project
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: hexagon_-roject
+      labels:
+        app: hexagon-project
+    spec:
+      containers:
+        - name: hexagon-project
+          image: kwolska/hexagon_project:version1.0.0
+          args: ["hexagon-project"]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: hexagon-project
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hexagon-project
+spec:
+  selector:
+    app: hexagon-project # szukaj aplikacji z label ustawionym app: berlin
+  ports:
+    - targetPort: 8080 # kontenery aplikacji pod portem 8081
+      port: 8080 # udosotpenij pod portem 8081 pod hostem berlin
+      nodePort: 32002 # otworz na klastrze port 32002 i przekieruj do berlin
+      name: hexagon-project-http
+      protocol: TCP
+  type: NodePort
