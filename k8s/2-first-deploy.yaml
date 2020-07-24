@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amsterdam
+  labels:
+    app: amsterdam
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: amsterdam
+      labels:
+        app: amsterdam
+    spec:
+      containers:
+        - name: amsterdam
+          image: ndrw/city:1.0.0
+          args: ["amsterdam"]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: amsterdam

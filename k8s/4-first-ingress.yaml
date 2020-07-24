@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warsaw
+  labels:
+    app: warsaw
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: warsaw
+      labels:
+        app: warsaw
+    spec:
+      containers:
+        - name: warsaw
+          image: ndrw/city:1.0.0
+          args: ["warsaw"]
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: warsaw
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: warsaw
+spec:
+  selector:
+    app: warsaw
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  type: NodePort
+  
+  
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: warsaw
+  annotations:
+    kubernetes.io/ingress.class: istio
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /warsaw
+            backend:
+              serviceName: warsaw # nazwa service'u do ktorej bedziemy route'owac
+              servicePort: 8080 # port otwarty na servisie
