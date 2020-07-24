@@ -34,11 +34,11 @@ metadata:
   name: hexagon-project
 spec:
   selector:
-    app: hexagon-project # szukaj aplikacji z label ustawionym app: berlin
+    app: hexagon-project
   ports:
-    - targetPort: 8080 # kontenery aplikacji pod portem 8081
-      port: 8080 # udosotpenij pod portem 8081 pod hostem berlin
-      nodePort: 32002 # otworz na klastrze port 32002 i przekieruj do berlin
+    - targetPort: 8080
+      port: 8080
+      nodePort: 32002
       name: hexagon-project-http
       protocol: TCP
   type: NodePort
