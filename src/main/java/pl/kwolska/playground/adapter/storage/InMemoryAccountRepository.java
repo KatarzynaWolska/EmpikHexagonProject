@@ -10,18 +10,23 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+//@Component
 class InMemoryAccountRepository implements AccountRepository {
 
   private final List<Account> accounts = new ArrayList<>();
-
-  public InMemoryAccountRepository() {
-    accounts.add(new Account(1, Collections.emptyList()));
-    accounts.add(new Account(2, Collections.emptyList()));
-  }
-
+  
   @Override
   public Optional<Account> findAccountById(int accountId) {
     return accounts.stream().filter(acc -> acc.getId() == accountId).findFirst();
+  }
+  
+  @Override
+  public void updateAccount(Account account) {
+  }
+  
+  @Override
+  public void createAccounts() {
+    accounts.add(new Account(1, Collections.emptyList()));
+    accounts.add(new Account(2, Collections.emptyList()));
   }
 }
