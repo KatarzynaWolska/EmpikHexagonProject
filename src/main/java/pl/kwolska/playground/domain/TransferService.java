@@ -34,18 +34,12 @@ public class TransferService {
   }
 
   public void createTransfer(int debitAccountId, int creditAccountId, BigDecimal money) throws AccountNotFoundException {
-    // todo 1: blad biznesowy, ze nie ma kont, rzucic wyjatek! Handler dla wyjatku
-    Optional<Account> debitAccount = Optional.ofNullable(accountRepository.findAccountById(debitAccountId))
-        .orElseThrow(AccountNotFoundException::new);
-  
-    Optional<Account> creditAccount = Optional.ofNullable(accountRepository.findAccountById(creditAccountId))
-        .orElseThrow(AccountNotFoundException::new);
+    Account debitAccount = accountRepository.findAccountById(debitAccountId).orElseThrow(AccountNotFoundException::new);
+    Account creditAccount = accountRepository.findAccountById(creditAccountId).orElseThrow(AccountNotFoundException::new);
     
-    // logika biznesowa!
-    if(createTransfer(debitAccount.get(), creditAccount.get(), money)) {
-      // todo 2: zapis stanu tych kont, update account!
-      accountRepository.updateAccount(debitAccount.get());
-      accountRepository.updateAccount(creditAccount.get());
+    if(createTransfer(debitAccount, creditAccount, money)) {
+      accountRepository.updateAccount(debitAccount);
+      accountRepository.updateAccount(creditAccount);
     }
   }
   
