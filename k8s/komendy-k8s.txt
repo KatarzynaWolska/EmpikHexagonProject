@@ -1,0 +1,17 @@
+1.
+microk8s kubectl run hello-world --image=hello-world
+microk8s kubectl logs hello-world
+
+2.
+microk8s kubectl apply -f k8s/1-first-k8s-pod.yaml
+
+3.
+microk8s kubectl apply -f 2-first-deploy.yaml
+microk8s kubectl get deploy
+kubectl delete deploy amsterdam
+
+4.
+kubectl exec -it pods/amsterdam-64c6f4c457-pwtjk sh
+curl berlin:8081/health
+curl localhost:32001/health
+

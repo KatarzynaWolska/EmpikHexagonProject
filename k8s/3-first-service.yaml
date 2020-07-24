@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: berlin
+  labels:
+    app: berlin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: berlin
+      labels:
+        app: berlin
+    spec:
+      containers:
+        - name: berlin
+          image: ndrw/city:1.0.0
+          args: ["berlin"]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: berlin
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: berlin
+spec:
+  selector:
+    app: berlin # szukaj aplikacji z label ustawionym app: berlin
+  ports:
+    - targetPort: 8081 # kontenery aplikacji pod portem 8081
+      port: 8081 # udosotpenij pod portem 8081 pod hostem berlin
+      nodePort: 32001 # otworz na klastrze port 32001 i przekieruj do berlin
+      name: berlin-http
+      protocol: TCP
+  type: NodePort
